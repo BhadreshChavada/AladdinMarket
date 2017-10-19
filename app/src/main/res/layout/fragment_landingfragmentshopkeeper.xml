@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_landing_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+>
+
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/btn_select_image"
+    android:onClick="camera"
+    android:text="Camera"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_select_image_from_gallery"
+        android:onClick="gallery"
+        android:text="From Gallery"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/product_icon"
+            android:id="@+id/img_selectedImage1"/>
+
+
+
+    </LinearLayout>
+
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Product Name "
+        android:id="@+id/edit_text_product_name"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Product Description "
+        android:id="@+id/edit_text_product_Description"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Product Cost "
+        android:id="@+id/edit_text_product_cost"/>
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_categories"
+
+        >
+    </android.support.v7.widget.AppCompatSpinner>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Stock Value"
+            android:id="@+id/edit_text_stock_value"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+       android:weightSum="3"
+        android:layout_height="wrap_content">
+
+<android.support.design.widget.FloatingActionButton
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:background="@drawable/add"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:text="ADD More"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Save "
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:background="@color/colorOrange"
+            android:id="@+id/button_save" />
+
+    </LinearLayout>
+</LinearLayout>

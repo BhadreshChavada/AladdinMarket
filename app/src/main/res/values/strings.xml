@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">AladdinMarket</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!--navigation view item list -->
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="search">Search</string>
+    <string name="about">About</string>
+    <string name="markettrends">MarketTrends</string>
+    <string name="feedback">Feedback</string>
+    <string name="rate_app">Rate App</string>
+    <string name="trending_offers">Trending Offers</string>
+    <string name="recommend_friend">Recommend to Friend</string>
+    <string name="logout_message">Do you want to Logout ?</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="inspiration">Find inspiration and\nfind great photos</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="save_toolbar_title">My Saved Quotes</string>
+    <string name="save_to_gallery_toolbar_title">Save to Category</string>
+    <string name="faith">FAITH</string>
+    <string name="schedule">Schedule</string>
+    <string name="q_24">24</string>
+    <string name="quotes">Quotes</string>
+    <string name="motivational">MOTIVATIONAL</string>
+    <string name="q_56">56</string>
+    <string name="love">LOVE</string>
+    <string name="q_35">35</string>
+    <string name="create">Create a Category</string>
+    <string name="select">Or Select From Existing Category</string>
+    <string name="storage">DEFAULT SAVE DIRECTORY</string>
+    <string name="default_storage">/storage/emulated/0/CommonQuotes</string>
+    <string name="save">SAVE</string>
+    <string name="share">SHARE</string>
+    <string name="LoremIpsum">ekj fejnfkjef jkef kjefkjnejkf nkjenjknebebf  ejfbejbef  ekj fejnf
+        kjef jkef kjefkjnejkf nkjenjknebebfejfbejbef</string>
+    <string name="permission_title_rationale">Permission needed</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_ok">OK</string>
+    <string name="reset"> <u>RESET</u>.</string>
+    <string name="permission_media_rationale"> Read permission is needed to read media</string>
+    <string name="permission_media_never_askagain"> </string>
+    <string name="permission_media_denied"> permission denied</string>
+    <string name="button_allow">Allow</string>
+    <string name="button_deny">Deny</string>
+    <string name="shareqoute">Share</string>
+
+
+    <string-array name="string_array_name">
+        <item>Motivational</item>
+        <item>Adventurous</item>
+        <item>Nature</item>
+    </string-array>
+    <string name="facebook_app_id">1800788563472772</string>
+    <string name="permission_write_storage_rationale">Write permission mandatory to store image </string>
+    <string name="default_quote">"Start Small, Dream Big,Begin Now "</string>
+    <string name="title_activity_maps">Map</string>
+</resources>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp" android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".activities.DrawerActivity">
+    <FrameLayout
+        android:id="@+id/main_toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/colorOrange"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            >
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorOrange"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/img_main_toolbar_icon"
+                        android:layout_height="40dp"
+                        android:layout_width="40dp"
+
+                        android:src="@drawable/logo"
+                        android:textColor="@color/cardview_light_background"
+                        android:foregroundGravity="center_horizontal"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_main_toolbar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                        android:text="ALLADIN MARKET"
+                        android:textColor="@color/cardview_light_background"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/img_main_toolbar_icon"
+
+                        android:visibility="visible"
+                         />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/img_save_icon"
+                        android:visibility="visible"
+                        android:background="@drawable/basket"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="50dp"
+                        android:layout_alignParentRight="true"
+                     />
+
+
+
+
+
+                  <!--  <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/img_search"
+                        android:src="@drawable/search"  android:layout_centerVertical="true"
+
+                        android:layout_toLeftOf="@id/img_save_icon"
+                        android:layout_marginTop="5dp"
+
+                        android:layout_marginRight="@dimen/image_action_bar_shuffle_marginright"
+                        />-->
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/img_window"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/img_save_icon"
+                        android:src="@drawable/notification_icon"
+
+
+                        />
+
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+
+
+</LinearLayout>

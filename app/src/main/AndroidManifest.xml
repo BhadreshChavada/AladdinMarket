@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="alladinmarket.com.alladinmarket">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permisssion.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permisssion.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permisssion.INTERNET" />
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality. 
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyA5ikB-EgbJ_RvOeACkJ7_sJt-3JL2p01s" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.DrawerActivity"
+             >
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".activities.DrawerActivity_Shopkeepr" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.SignUpActivity" />
+        <activity android:name=".activities.MarketActivity" />
+        <activity android:name=".activities.SeacrhProductActivity" />
+        <activity android:name=".activities.CartActivity" />
+        <activity android:name=".activities.ShopKeepersActivity" />
+        <activity android:name=".activities.ProductDetailActivity" />
+        <activity android:name=".activities.PromoterDetailActivity" />
+        <activity android:name=".activities.ShopkeeprDetail" />
+        <activity android:name=".activities.SubcategoryActivity" />
+        <activity android:name=".activities.ManufacturerDetail" />
+        <activity android:name=".fragments.SearchShopsActivity" />
+        <activity android:name=".activities.ShopKeeperLocationActivity" />
+        <activity android:name=".activities.MapsActivity" />
+        <service android:name=".services.MyService" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA5ikB-EgbJ_RvOeACkJ7_sJt-3JL2p01s" />
+
+        <activity android:name=".activities.SelectRole" />
+        <activity android:name=".activities.SignUpShopKeepr"></activity>
+    </application>
+
+</manifest>

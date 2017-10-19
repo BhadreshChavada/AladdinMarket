@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="alladinmarket.com.alladinmarket.fragments.SearchProductFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Enter District"
+        android:layout_margin="3dp"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:background="@drawable/shape"
+        android:id="@+id/edt_search_district"/>
+
+  <android.support.v7.widget.RecyclerView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/rv_search_trends_list">
+
+  </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
