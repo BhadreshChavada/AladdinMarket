@@ -35,7 +35,7 @@ public class ShopKeepersActivity extends AppCompatActivity {
         Gson gson = new Gson() ;
         gson.fromJson(getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("shops_all",""), AllProducts
                 .class) ;
-        ArrayList<ShopkeeperItem> shopsItems=   gson.fromJson(
+        final ArrayList<ShopkeeperItem> shopsItems=   gson.fromJson(
                 getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("shops_all",""), AllShops.class).getMarket_items();
         // specify an adapter (see also next example)
         mAdapter = new SearchShopkeeperAdaper(this,shopsItems);
@@ -43,6 +43,7 @@ public class ShopKeepersActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View itemView, int position) {
                 Intent i = new Intent(ShopKeepersActivity.this,ShopkeeprDetail.class);
+                i.putExtra("ShopekeeperPosition",position);
                 startActivity(i);
             }
         });

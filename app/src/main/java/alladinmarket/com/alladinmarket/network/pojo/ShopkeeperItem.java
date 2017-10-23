@@ -4,7 +4,7 @@ package alladinmarket.com.alladinmarket.network.pojo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ShopkeeperItem {
+public class ShopkeeperItem  {
 
     @SerializedName("shopkeeper_ID")
     @Expose

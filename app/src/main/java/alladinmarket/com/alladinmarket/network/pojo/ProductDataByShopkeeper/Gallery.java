@@ -1,8 +1,11 @@
-
-package alladinmarket.com.alladinmarket.network.pojo.ProductDetails;
+package alladinmarket.com.alladinmarket.network.pojo.ProductDataByShopkeeper;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+/**
+ * Created by AMD21 on 23/10/17.
+ */
 
 public class Gallery {
 
@@ -11,7 +14,7 @@ public class Gallery {
     private String original;
     @SerializedName("shop_mobile")
     @Expose
-    private String shop_mobile;
+    private String shopMobile;
 
     public String getOriginal() {
         return original;
@@ -21,12 +24,15 @@ public class Gallery {
         this.original = original;
     }
 
-    public String getShop_mobile() {
-        return shop_mobile;
+    public String getShopMobile() {
+        return shopMobile;
     }
 
-    public void setShop_mobile(String shop_mobile) {
-        this.shop_mobile = shop_mobile;
+    public void setShopMobile(String shopMobile) {
+        this.shopMobile = shopMobile;
     }
+
+
+
 
 }

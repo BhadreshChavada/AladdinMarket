@@ -68,14 +68,14 @@ public class PromoterFragment extends Fragment {
         gson.fromJson(getContext().getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("markets_all",""), AllMarkets.class) ;
         promoterItems=
                 (ArrayList<Promoter>) gson.fromJson(getContext().
-                getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("promoters_all",""), PromoterObject.class)
-                .getPromoter() ;
+                        getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("promoters_all",""), PromoterObject.class)
+                        .getPromoter() ;
 
 
         Log.v("check_list",promoterItems.size()+"") ;
         districtItems =
                 gson.fromJson(getContext().
-                getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("districts_all",""), AllDistricts.class).getDistrict_items();
+                        getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("districts_all",""), AllDistricts.class).getDistrict_items();
 
 
         mAdapter = new PromoterAdaper(promoterItems);
@@ -123,7 +123,7 @@ public class PromoterFragment extends Fragment {
                     //  int foo = Integer.parseInt(mPincode.getText().toString().trim());
                     Log.v("reach","here") ;
                     try {
-                      //  searchMarket(Integer.parseInt(mPincode.getText().toString().trim()));
+                        //  searchMarket(Integer.parseInt(mPincode.getText().toString().trim()));
                         //searchPromoter(getIdForDistrict(mDistrict.getText().toString().trim())) ;
                     }
                     catch(NumberFormatException nue)
@@ -153,14 +153,10 @@ public class PromoterFragment extends Fragment {
                 promoterItems.addAll(response.body());
                 mAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onFailure(Call<ArrayList<PromoterItem>> call, Throwable t) {
-
             }
         }) ;
-
-
     }
 */
 
@@ -173,7 +169,7 @@ public class PromoterFragment extends Fragment {
         {
             if (districtItem.getName().compareToIgnoreCase(districtName)==0)
             {
-                 ;
+                ;
                 return Integer.parseInt(districtItem.getId()) ;
 
             }

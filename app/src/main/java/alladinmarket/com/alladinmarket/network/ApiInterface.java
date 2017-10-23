@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import alladinmarket.com.alladinmarket.network.pojo.CartItems.CartItemObject;
 import alladinmarket.com.alladinmarket.network.pojo.Categories;
 import alladinmarket.com.alladinmarket.network.pojo.DistrictItem;
-import alladinmarket.com.alladinmarket.network.pojo.ImageObject;
 import alladinmarket.com.alladinmarket.network.pojo.LoginEntity.LoginObject;
 import alladinmarket.com.alladinmarket.network.pojo.Market_item;
 import alladinmarket.com.alladinmarket.network.pojo.NewTrendsItem;
 import alladinmarket.com.alladinmarket.network.pojo.OrderObject.OrderObject;
+import alladinmarket.com.alladinmarket.network.pojo.ProductDataByShopkeeper.ProductDataByShopkeeper;
 import alladinmarket.com.alladinmarket.network.pojo.ProductDetails.ProductDetailItem;
 import alladinmarket.com.alladinmarket.network.pojo.ProductItem;
 import alladinmarket.com.alladinmarket.network.pojo.PromoterItem;
@@ -134,12 +134,14 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("login")
-    Call<User> loginUser(
-                            @Field("email") String email,
+    Call<User> loginUser( @Field("email") String email,
                            @Field("password") String password
                         );
 
     @Multipart
     @POST("uploadImage")
     Call<ServerResponse> uploadFile(@Part MultipartBody.Part file, @Part("file") RequestBody name);
+
+    @GET("get_product_by_shopkeeper_id.php")
+    Call<ProductDataByShopkeeper> ProductDetails(@Query("prod_id")String productID, @Query("shopkep_id")String shopkeeperID);
 }

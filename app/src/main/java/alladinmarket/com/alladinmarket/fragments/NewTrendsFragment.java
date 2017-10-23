@@ -23,22 +23,11 @@ import java.util.ArrayList;
 
 import alladinmarket.com.alladinmarket.R;
 import alladinmarket.com.alladinmarket.activities.ProductDetailActivity;
-import alladinmarket.com.alladinmarket.activities.SeacrhProductActivity;
-import alladinmarket.com.alladinmarket.adapters.CategoryAdaper;
 import alladinmarket.com.alladinmarket.adapters.TrendsAdapter;
 import alladinmarket.com.alladinmarket.network.pojo.AllDistricts;
-import alladinmarket.com.alladinmarket.network.pojo.AllMarkets;
 import alladinmarket.com.alladinmarket.network.pojo.AllNewTrends;
-
 import alladinmarket.com.alladinmarket.network.pojo.DistrictItem;
-import alladinmarket.com.alladinmarket.network.pojo.NewTrendsItem;
-import alladinmarket.com.alladinmarket.network.pojo.PromoterItem;
 import alladinmarket.com.alladinmarket.network.pojo.Trend.Datum;
-import alladinmarket.com.alladinmarket.network.pojo.Trend.TrendItem;
-import alladinmarket.com.alladinmarket.services.MyService;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -53,7 +42,7 @@ public class NewTrendsFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Datum> trendsAll = new ArrayList<>();
     private ArrayList<DistrictItem> districtItems = new ArrayList<>();
-    private EditText mDistrict ;
+    private EditText mDistrict;
 
 
     @Override
@@ -63,23 +52,21 @@ public class NewTrendsFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_search_trends_list);
 
-        mLayoutManager = new GridLayoutManager(getContext(),2);
+        mLayoutManager = new GridLayoutManager(getContext(), 2);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mDistrict = (EditText)v.findViewById(R.id.edt_search_district);
+        mDistrict = (EditText) v.findViewById(R.id.edt_search_district);
         // specify an adapter (see also next example)
 
 
-        Gson gson = new Gson() ;
+        Gson gson = new Gson();
        /* gson.fromJson(getContext().getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("trends_all",""), AllPromoters.class) ;*/
-        trendsAll=   gson.fromJson(getContext().
-                getSharedPreferences("MYPrefs",MODE_PRIVATE).
-                getString("trends_all",""), AllNewTrends.class).getNewTrends_items();
+        trendsAll = gson.fromJson(getContext().
+                getSharedPreferences("MYPrefs", MODE_PRIVATE).
+                getString("trends_all", ""), AllNewTrends.class).getNewTrends_items();
 
         districtItems = gson.fromJson(getContext().
-                getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("districts_all",""), AllDistricts.class).getDistrict_items();
-
-
+                getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("districts_all", ""), AllDistricts.class).getDistrict_items();
 
 
         mAdapter = new TrendsAdapter(trendsAll);
@@ -87,6 +74,8 @@ public class NewTrendsFragment extends Fragment {
             @Override
             public void onItemClick(View itemView, int position) {
                 Intent i = new Intent(getContext(), ProductDetailActivity.class);
+//                Log.d("SDSD",trendsAll.get(position).getProduct_id());
+                i.putExtra("ProductId", trendsAll.get(position).getProduct_id());
                 startActivity(i);
             }
         });
@@ -94,11 +83,11 @@ public class NewTrendsFragment extends Fragment {
 
         mRecyclerView.setAdapter(mAdapter);
 
-        final   boolean isEditable = true ;
+        final boolean isEditable = true;
         mDistrict.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (isEditable){
+                if (isEditable) {
                     v.setFocusable(true);
                     v.setFocusableInTouchMode(true);
                 } else {
@@ -109,14 +98,14 @@ public class NewTrendsFragment extends Fragment {
             }
         });
 
-        mDistrict.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        mDistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange (View view,boolean b){
+            public void onFocusChange(View view, boolean b) {
                 if (!b) {
                     hideKeyboard();
                 }
             }
-        }) ;
+        });
 
 
         mDistrict.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -124,13 +113,11 @@ public class NewTrendsFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     //  int foo = Integer.parseInt(mPincode.getText().toString().trim());
-                    Log.v("reach","here") ;
+                    Log.v("reach", "here");
                     try {
                         //  searchMarket(Integer.parseInt(mPincode.getText().toString().trim()));
-                        searchTrends(getIdForDistrict(mDistrict.getText().toString().trim())) ;
-                    }
-                    catch(NumberFormatException nue)
-                    {
+                        searchTrends(getIdForDistrict(mDistrict.getText().toString().trim()));
+                    } catch (NumberFormatException nue) {
                         nue.printStackTrace();
                     }
                     return true;
@@ -140,14 +127,11 @@ public class NewTrendsFragment extends Fragment {
         });
 
 
-
-
         return v;
     }
 
 
-    public void searchTrends(int id)
-    {
+    public void searchTrends(int id) {
         /*Call<ArrayList<NewTrendsItem>> getpromoters = MyService.apiService.getNewTrends(id);
         getpromoters.enqueue(new Callback<ArrayList<NewTrendsItem>>() {
             @Override
@@ -175,15 +159,14 @@ public class NewTrendsFragment extends Fragment {
         for (DistrictItem districtItem : districtItems)
 
         {
-            if (districtItem.getName().compareToIgnoreCase(districtName)==0)
-            {
+            if (districtItem.getName().compareToIgnoreCase(districtName) == 0) {
                 ;
-                return Integer.parseInt(districtItem.getId()) ;
+                return Integer.parseInt(districtItem.getId());
 
             }
 
         }
-        return 0 ;
+        return 0;
         //for (int i= 0, i<districtItems.size(),i++){};
     }
 
@@ -192,9 +175,7 @@ public class NewTrendsFragment extends Fragment {
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

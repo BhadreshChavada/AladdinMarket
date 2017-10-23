@@ -25,8 +25,8 @@ public class PromoterAdaper extends RecyclerView.Adapter<PromoterAdaper.ViewHold
     }
 
 
-
     private OnItemClickListener listener;
+
     // Define the listener interface
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
@@ -40,7 +40,7 @@ public class PromoterAdaper extends RecyclerView.Adapter<PromoterAdaper.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v =  LayoutInflater.from(parent.getContext())
+        View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.promoter_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
@@ -52,41 +52,35 @@ public class PromoterAdaper extends RecyclerView.Adapter<PromoterAdaper.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-try {
-    holder.shopKeeperName.setText(promoterItemArrayList.get(0).getPromoter().get(0).get(0));
-}
-catch (Exception e){
 
-    e.getMessage();
-    e.getStackTrace();
-}
+        holder.shopKeeperName.setText(promoterItemArrayList.get(position).getPromoterName());
 
     }
 
     // Provide a reference to the views for each data item
 // Complex data items may need more than one view per item, and
 // you provide access to all the views for a data item in a view holder
-public  class ViewHolder extends RecyclerView.ViewHolder {
-    // each data item is just a string in this case
-    public TextView shopKeeperName;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        public TextView shopKeeperName;
 
-          public ViewHolder(View v) {
-        super(v);
-              shopKeeperName = (TextView)v.findViewById(R.id.tv_promoter_name);
-              v.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                      if (listener != null) {
-                          int position = getAdapterPosition();
-                          if (position != RecyclerView.NO_POSITION) {
-                              listener.onItemClick(itemView, position);
-                          }
-                      }
-                  }
-              });
+        public ViewHolder(View v) {
+            super(v);
+            shopKeeperName = (TextView) v.findViewById(R.id.tv_promoter_name);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(itemView, position);
+                        }
+                    }
+                }
+            });
 
+        }
     }
-}
 
     // Provide a suitable constructor (depends on the kind of dataset)
 
