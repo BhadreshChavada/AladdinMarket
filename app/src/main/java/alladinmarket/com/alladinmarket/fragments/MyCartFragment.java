@@ -2,7 +2,6 @@ package alladinmarket.com.alladinmarket.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -15,19 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.logging.Handler;
 
 import alladinmarket.com.alladinmarket.R;
 import alladinmarket.com.alladinmarket.adapters.CartAdaper;
 import alladinmarket.com.alladinmarket.network.pojo.CartItems.CartItemObject;
 import alladinmarket.com.alladinmarket.network.pojo.CartItems.Product;
-import alladinmarket.com.alladinmarket.network.pojo.Categories;
-import alladinmarket.com.alladinmarket.network.pojo.ImageObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static alladinmarket.com.alladinmarket.services.MyService.apiServiceActual;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by nmn on 3/4/17.
@@ -67,7 +64,7 @@ public class MyCartFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_cart, container, false);
+        View v = inflater.inflate(R.layout.fragment_cart, container, false);
         // Set title bar
 
         Log.v("MYCArt","onCreateView");
@@ -160,7 +157,7 @@ public class MyCartFragment extends Fragment {
 
     public void apiCall() {
 
-        Call<CartItemObject> callImages = apiServiceActual.listCartItems("18") ;
+        Call<CartItemObject> callImages = apiServiceActual.listCartItems(getContext().getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("UserId","1")) ;
         callImages.enqueue(new Callback<CartItemObject>() {
             @Override
             public void onResponse(Call<CartItemObject> call, Response<CartItemObject> response) {

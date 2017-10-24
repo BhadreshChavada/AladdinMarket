@@ -1,8 +1,8 @@
 package alladinmarket.com.alladinmarket.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -11,12 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.vicmikhailau.maskededittext.MaskedFormatter;
-import com.vicmikhailau.maskededittext.MaskedWatcher;
 
 import alladinmarket.com.alladinmarket.R;
 import alladinmarket.com.alladinmarket.network.pojo.LoginEntity.LoginObject;
-import alladinmarket.com.alladinmarket.utils.MaskWatcher;
 import alladinmarket.com.alladinmarket.utils.MyApplication;
 import alladinmarket.com.alladinmarket.utils.Profile;
 import retrofit2.Call;
@@ -51,13 +48,13 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         String s = "naman";
-        String a=s ;
-        a.replace("m","n");
-        Log.v("check",s);
-        s = s+"uiui";
-        s= s.replace("u","i");
-        Log.v("check",s);
-        Log.v("checka",a);
+        String a = s;
+        a.replace("m", "n");
+        Log.v("check", s);
+        s = s + "uiui";
+        s = s.replace("u", "i");
+        Log.v("check", s);
+        Log.v("checka", a);
     }
 
 
@@ -66,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Log.v("reachhere", email.getText().toString() + "correct");
         if (email.getText().toString().compareToIgnoreCase("shopkeeper@gmail.com") == 0 &&
-                password.getText().toString().compareToIgnoreCase("12345678")==0) {
+                password.getText().toString().compareToIgnoreCase("12345678") == 0) {
             MyApplication.sShopkeeper_flag = true;
             Intent i = new Intent(LoginActivity.this, DrawerActivity.class);
             startActivity(i);
@@ -87,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                         //  allMarkets.setMarket_items(response.body());
                         String profileDetail = gson.toJson(profile);
                         getSharedPreferences("MYPrefs", MODE_PRIVATE).edit().putString("profile_detail", profileDetail).apply();
-
+                        getSharedPreferences("MYPrefs", MODE_PRIVATE).edit().putString("UserId", String.valueOf(profile.getLoginObject().getID()));
 
 
 
