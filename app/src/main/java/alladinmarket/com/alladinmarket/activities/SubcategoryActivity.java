@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -27,10 +28,10 @@ import retrofit2.Response;
 
 public class SubcategoryActivity extends AppCompatActivity {
 
-    ListView listView ;
-    Toolbar mToolbar ;
-    ArrayAdapter<String> myAdapter ;
-    ArrayList<Sub_category> subCategoryItems ;
+    ListView listView;
+    Toolbar mToolbar;
+    ArrayAdapter<String> myAdapter;
+    ArrayList<Sub_category> subCategoryItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +45,16 @@ public class SubcategoryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
+        listView = (ListView) findViewById(R.id.lv_subcategory_list);
 
-        listView = (ListView)findViewById(R.id.lv_subcategory_list);
+        // String[] categories = {"SubCategory","SubCategory","SubCategory","SubCategory","SubCategory","SubCategory","SubCategory"};
 
-       // String[] categories = {"SubCategory","SubCategory","SubCategory","SubCategory","SubCategory","SubCategory","SubCategory"};
-
-
-
-         myAdapter =
-                new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,getSubCategories() );
-
+        try {
+            myAdapter =
+                    new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getSubCategories());
+        } catch (NullPointerException e) {
+            Toast.makeText(getApplicationContext(), "Try Again...", Toast.LENGTH_SHORT).show();
+        }
         listView.setAdapter(myAdapter);
 
 
@@ -61,9 +62,9 @@ public class SubcategoryActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Log.v("checkIDHere",subCategoryItems.get(i).getParent()+"");
-                Intent intent = new Intent(SubcategoryActivity.this,SeacrhProductActivity.class);
-                intent.putExtra("SelectedSubCategoryID",subCategoryItems.get(i).getName());
+                Log.v("checkIDHere", subCategoryItems.get(i).getParent() + "");
+                Intent intent = new Intent(SubcategoryActivity.this, SeacrhProductActivity.class);
+                intent.putExtra("SelectedSubCategoryID", subCategoryItems.get(i).getName());
                 getProducts(subCategoryItems.get(i).getName());
                 startActivity(intent);
             }
@@ -82,26 +83,24 @@ public class SubcategoryActivity extends AppCompatActivity {
     }
 
 
+    public ArrayList<String> getSubCategories() {
+        Log.v("checlRxedID", getIntent().getIntExtra("selectedCategoryID", 0) + "");
 
-    public ArrayList<String> getSubCategories(){
-Log.v("checlRxedID",getIntent().getIntExtra("selectedCategoryID",0)+"");
-
-        final ArrayList<String>  subcategoryNames = new ArrayList<>();
+        final ArrayList<String> subcategoryNames = new ArrayList<>();
         Call<Subcat> getpromoters =
-                MyService.apiServiceActual.listSubCategory(getIntent().getIntExtra("selectedCategoryID",0));
+                MyService.apiServiceActual.listSubCategory(getIntent().getIntExtra("selectedCategoryID", 0));
         getpromoters.enqueue(new Callback<Subcat>() {
             @Override
             public void onResponse(Call<Subcat> call, Response<Subcat> response) {
-                Log.v("resonse",response.code()+"length"+response.body().getSub_category().size()) ;
-                for (int i = 0 ; i <response.body().getSub_category().size() ; i++)
-                {
-                   subCategoryItems = (ArrayList<Sub_category>) response.body().getSub_category();
-                    subcategoryNames.add(i,response.body().getSub_category().get(i).getName());
-                   // subcategoryNames[i]=response.body().get(i).getSubcategoryname() ;
+                Log.v("resonse", response.code() + "length" + response.body().getSub_category().size());
+                for (int i = 0; i < response.body().getSub_category().size(); i++) {
+                    subCategoryItems = (ArrayList<Sub_category>) response.body().getSub_category();
+                    subcategoryNames.add(i, response.body().getSub_category().get(i).getName());
+                    // subcategoryNames[i]=response.body().get(i).getSubcategoryname() ;
 
                 }
 
-                Log.v("size",subcategoryNames.size()+"length"+response.body().getSub_category().size()) ;
+                Log.v("size", subcategoryNames.size() + "length" + response.body().getSub_category().size());
                 myAdapter.notifyDataSetChanged();
             }
 
@@ -109,29 +108,33 @@ Log.v("checlRxedID",getIntent().getIntExtra("selectedCategoryID",0)+"");
             public void onFailure(Call<Subcat> call, Throwable t) {
 
             }
-        }) ;
-        Log.v("sizeIn",subcategoryNames.size()+"length") ;
-        return subcategoryNames ;
+        });
+        Log.v("sizeIn", subcategoryNames.size() + "length");
+        return subcategoryNames;
     }
 
-    public void getProducts (String id){
-        Log.v("checkIDafterIN",getIntent().getIntExtra("SelectedSubCategoryID",8)+"");
+    public void getProducts(String id) {
+        Log.v("checkIDafterIN", getIntent().getIntExtra("SelectedSubCategoryID", 8) + "");
         Call<alladinmarket.com.alladinmarket.network.pojo.product.ProductItem> getproducts =
                 MyService.apiServiceActual.listSubCategoryProducts(id);
         getproducts.enqueue(new Callback<alladinmarket.com.alladinmarket.network.pojo.product.ProductItem>() {
             @Override
             public void onResponse(Call<alladinmarket.com.alladinmarket.network.pojo.product.ProductItem> call,
                                    Response<alladinmarket.com.alladinmarket.network.pojo.product.ProductItem> response) {
-                Log.v("responsebeforeShared",response.code()+"length"+response.body().getData().size()) ;
-              //  productItems = response.body() ;
+                Log.v("responsebeforeShared", response.code() + "length" + response.body().getData().size());
+                //  productItems = response.body() ;
 
                 //mAdapter.notifyDataSetChanged();
-                Gson gson = new Gson() ;
+                try {
+                    Gson gson = new Gson();
 
-                AllProducts allProducts = new AllProducts() ;
-                allProducts.setProduct_items((ArrayList<Datum>) response.body().getData());
-                String allPromotersHere = gson.toJson(allProducts);
-                getSharedPreferences("MYPrefs",MODE_PRIVATE).edit().putString("products_all",allPromotersHere).apply();
+                    AllProducts allProducts = new AllProducts();
+                    allProducts.setProduct_items((ArrayList<Datum>) response.body().getData());
+                    String allPromotersHere = gson.toJson(allProducts);
+                    getSharedPreferences("MYPrefs", MODE_PRIVATE).edit().putString("products_all", allPromotersHere).apply();
+                } catch (NullPointerException e) {
+                    Toast.makeText(getApplicationContext(), "Try Again...", Toast.LENGTH_SHORT).show();
+                }
             }
 
 
@@ -139,7 +142,7 @@ Log.v("checlRxedID",getIntent().getIntExtra("selectedCategoryID",0)+"");
             public void onFailure(Call<alladinmarket.com.alladinmarket.network.pojo.product.ProductItem> call, Throwable t) {
 
             }
-        }) ;
+        });
 
     }
 }

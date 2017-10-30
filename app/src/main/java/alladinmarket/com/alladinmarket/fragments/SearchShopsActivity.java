@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -49,31 +50,35 @@ public class SearchShopsActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_search_product_list);
 
 
-
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        Gson gson = new Gson();
-        gson.fromJson(getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("shops_all", ""), AllProducts
-                .class);
-        final ArrayList<ShopkeeperItem> shopsItems = gson.fromJson(
-                getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("shops_all", ""), AllShops.class).getMarket_items();
-        // specify an adapter (see also next example)
-        mAdapter = new SearchShopkeeperAdaper(this, shopsItems);
-        mAdapter.setOnItemClickListener(new SearchShopkeeperAdaper.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
+        try {
+            Gson gson = new Gson();
+            gson.fromJson(getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("shops_all", ""), AllProducts
+                    .class);
+            final ArrayList<ShopkeeperItem> shopsItems = gson.fromJson(
+                    getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("shops_all", ""), AllShops.class).getMarket_items();
+            // specify an adapter (see also next example)
+            mAdapter = new SearchShopkeeperAdaper(this, shopsItems);
+            mAdapter.setOnItemClickListener(new SearchShopkeeperAdaper.OnItemClickListener() {
+                @Override
+                public void onItemClick(View itemView, int position) {
 
 
-                Log.d("ShopkeeperID", shopsItems.get(position).getShopkeeper_ID());
+                    Log.d("ShopkeeperID", shopsItems.get(position).getShopkeeper_ID());
 
 
-                Intent i = new Intent(SearchShopsActivity.this, ProductDetailActivity.class);
-                i.putExtra("ProductID", getIntent().getStringExtra("ProductId"));
-                i.putExtra("ShopkeeperID", shopsItems.get(position).getShopkeeper_ID());
-                startActivity(i);
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
+                    Intent i = new Intent(SearchShopsActivity.this, ProductDetailActivity.class);
+                    i.putExtra("ProductID", getIntent().getStringExtra("ProductId"));
+                    i.putExtra("ShopkeeperID", shopsItems.get(position).getShopkeeper_ID());
+                    startActivity(i);
+                }
+            });
+            mRecyclerView.setAdapter(mAdapter);
+        } catch (NullPointerException e) {
+            Toast.makeText(getApplicationContext(), "Try Again...", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,8 +21,7 @@ public class CartAdaper extends RecyclerView.Adapter<CartAdaper.ViewHolder> {
 //private String[] mDataset;
 
 
-
-public ArrayList<Product> products ;
+    public ArrayList<Product> products;
 
     public CartAdaper(ArrayList<Product> products) {
         this.products = products;
@@ -29,7 +29,7 @@ public ArrayList<Product> products ;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v =  LayoutInflater.from(parent.getContext())
+        View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_cart, parent, false);
         // set the view's size, margins, paddings and layout parameters
 
@@ -45,26 +45,44 @@ public ArrayList<Product> products ;
 
         holder.productCost.setText(products.get(position).get_regular_price());
         holder.productName.setText(products.get(position).getProduct_name());
-        holder.sellerName.setText(products.get(position).getProduct_quantity()+"");
+        holder.sellerName.setText(products.get(position).getProduct_quantity() + "");
+
+        holder.imgDeleteItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        holder.imgEditItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
 
     // Provide a reference to the views for each data item
 // Complex data items may need more than one view per item, and
 // you provide access to all the views for a data item in a view holder
-public static class ViewHolder extends RecyclerView.ViewHolder {
-    // each data item is just a string in this case
-    public TextView productName;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        public TextView productName;
         public TextView sellerName;
         public TextView productCost;
-    public ViewHolder(View v) {
-        super(v);
-        productName = (TextView)v.findViewById(R.id.tv_cart_product_name);
-        sellerName = (TextView)v.findViewById(R.id.tv_cart_product_quantity);
-        productCost = (TextView)v.findViewById(R.id.tv_cart_product_cost);
+        ImageView imgEditItem, imgDeleteItem;
 
+        public ViewHolder(View v) {
+            super(v);
+            productName = (TextView) v.findViewById(R.id.tv_cart_product_name);
+            sellerName = (TextView) v.findViewById(R.id.tv_cart_product_quantity);
+            productCost = (TextView) v.findViewById(R.id.tv_cart_product_cost);
+            imgEditItem = (ImageView) v.findViewById(R.id.img_cart_edit);
+            imgDeleteItem = (ImageView) v.findViewById(R.id.img_cart_delete);
+
+        }
     }
-}
 
     // Provide a suitable constructor (depends on the kind of dataset)
 
@@ -75,7 +93,7 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
     @Override
     public int getItemCount() {
 
-        Log.v("listCountItems",products.size()+"size");
+        Log.v("listCountItems", products.size() + "size");
         return products.size();
     }
 }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -51,6 +52,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         btnAddCart = (Button) findViewById(R.id.btn_add_cart);
         btnShare = (Button) findViewById(R.id.btn_share);
 
+        try{
         if (getIntent().getStringExtra("ShopkeeperID") != null) {
             apiCall(getIntent().getStringExtra("ProductID"), getIntent().getStringExtra("ShopkeeperID"));
         } else {
@@ -63,7 +65,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         mLayoutManager = new GridLayoutManager(this, 6);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-
+        }catch(NullPointerException e){
+            Toast.makeText(getApplicationContext(), "Try Again...", Toast.LENGTH_SHORT).show();
+        }
         btnAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

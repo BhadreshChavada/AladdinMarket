@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -34,7 +35,7 @@ import static android.content.Context.MODE_PRIVATE;
  * create an instance of this fragment.
  */
 public class SearchProductFragment extends Fragment implements CategoryAdaper.OnItemClickListener,
-        DrawerActivity.SearchQueryListener{
+        DrawerActivity.SearchQueryListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,12 +45,12 @@ public class SearchProductFragment extends Fragment implements CategoryAdaper.On
     private String mParam1;
     private String mParam2;
 
-  //  private String queryString ;
+    //  private String queryString ;
 
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView mRecyclerView;
-    private CategoryAdaper mAdapter ;
+    private CategoryAdaper mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private ArrayList<Category> categories = new ArrayList<>();
@@ -91,50 +92,57 @@ public class SearchProductFragment extends Fragment implements CategoryAdaper.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search_product, container, false) ;
+        View view = inflater.inflate(R.layout.fragment_search_product, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_search_product_list);
 
-        mLayoutManager = new GridLayoutManager(getContext(),2);
+        mLayoutManager = new GridLayoutManager(getContext(), 2);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
 
-        Gson gson = new Gson() ;
-        gson.fromJson(getContext().getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("categories_all",""), AllMarkets.class) ;
-        categories=   (ArrayList<Category>) gson.fromJson(getContext().
-                getSharedPreferences("MYPrefs",MODE_PRIVATE).
-                getString("categories_all",""), Categories.class).getCategory() ;
+        try {
+            Gson gson = new Gson();
+            gson.fromJson(getContext().getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("categories_all", ""), AllMarkets.class);
+            categories = (ArrayList<Category>) gson.fromJson(getContext().
+                    getSharedPreferences("MYPrefs", MODE_PRIVATE).
+                    getString("categories_all", ""), Categories.class).getCategory();
 
 
+            mAdapter = new CategoryAdaper(getContext(), categories);
+        } catch (NullPointerException e) {
+            Toast.makeText(getActivity(), "Try Again...", Toast.LENGTH_SHORT).show();
+        }
 
-        mAdapter = new CategoryAdaper(getContext(),categories);
-
-      DrawerActivity.setOnSearchQueryListener(this);
+        DrawerActivity.setOnSearchQueryListener(this);
         mRecyclerView.setAdapter(mAdapter);
-       //  mAdapter.setOnItemClickListener(new CategoryAdaper.OnItemClickListener())
-         mAdapter.setOnItemClickListener(new CategoryAdaper.OnItemClickListener() {
-             @Override
-             public void onItemClick(View itemView, int position) {
+        //  mAdapter.setOnItemClickListener(new CategoryAdaper.OnItemClickListener())
+        mAdapter.setOnItemClickListener(new CategoryAdaper.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(View itemView, int position) {
 
-                 Log.d("CategorySize", String.valueOf(categories.size()));
+                                                try {
+                                                    Log.d("CategorySize", String.valueOf(categories.size()));
 
-                 Intent i = new Intent(getContext(), SubcategoryActivity.class);
-                 Log.v("checkId",categories.get(position).getTerm_id()+"");
-                 i.putExtra("selectedCategoryID",categories.get(position).getTerm_id());
-                startActivity(i);
-             }
-         }) ;
+                                                    Intent i = new Intent(getContext(), SubcategoryActivity.class);
+                                                    Log.v("checkId", categories.get(position).getTerm_id() + "");
+                                                    i.putExtra("selectedCategoryID", categories.get(position).getTerm_id());
+                                                    startActivity(i);
+                                                } catch (NullPointerException e) {
+                                                    Toast.makeText(getActivity(), "Try Again...", Toast.LENGTH_SHORT).show();
+                                                }
+                                                }
+                                            });
 
-        return view ;
-    }
+        return view;
+                                        }
 
-    // TODO: Rename method, update argument and hook method into UI event
+                // TODO: Rename method, update argument and hook method into UI event
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
-
 
 
     @Override
@@ -150,7 +158,7 @@ public class SearchProductFragment extends Fragment implements CategoryAdaper.On
 
     @Override
     public void searchEntered(String query) {
-        Log.v("searchValueFragment",query);
+        Log.v("searchValueFragment", query);
 
         mAdapter.getFilter().filter((CharSequence) query);
         mAdapter.notifyDataSetChanged();

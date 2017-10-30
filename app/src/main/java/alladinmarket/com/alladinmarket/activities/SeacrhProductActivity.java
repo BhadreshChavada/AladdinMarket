@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -61,17 +62,21 @@ public class SeacrhProductActivity extends AppCompatActivity {
         // specify an adapter (see also next example)
 
 
-        Gson gson = new Gson();
-        gson.fromJson(getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("markets_all", ""), AllProducts
-                .class);
+        try {
+            Gson gson = new Gson();
+            gson.fromJson(getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("markets_all", ""), AllProducts
+                    .class);
 
-        Log.d("RESPONSE",getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("products_all", ""));
-        ArrayList<Datum> productItems = gson.fromJson(
-                getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("products_all", ""), AllProducts.class).getMarket_items();
+            Log.d("RESPONSE", getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("products_all", ""));
+            ArrayList<Datum> productItems = gson.fromJson(
+                    getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("products_all", ""), AllProducts.class).getMarket_items();
 
-        Log.v("checkItems", productItems.size() + "size");
-        mAdapter = new SearchProductAdaper(getProducts());
+            Log.v("checkItems", productItems.size() + "size");
+            mAdapter = new SearchProductAdaper(getProducts());
 
+        } catch (NullPointerException e) {
+            Toast.makeText(getApplicationContext(), "Try Again...", Toast.LENGTH_SHORT).show();
+        }
         getShopKeepers();
 
 
@@ -80,7 +85,7 @@ public class SeacrhProductActivity extends AppCompatActivity {
             public void onItemClick(View itemView, int position) {
 
 
-                getProductDetail(getIntent().getExtras().getString("SelectedSubCategoryID"),position);
+                getProductDetail(getIntent().getExtras().getString("SelectedSubCategoryID"), position);
 
 
             }
@@ -135,12 +140,17 @@ public class SeacrhProductActivity extends AppCompatActivity {
         getproducts.enqueue(new Callback<ArrayList<ShopkeeperItem>>() {
             @Override
             public void onResponse(Call<ArrayList<ShopkeeperItem>> call, Response<ArrayList<ShopkeeperItem>> response) {
-                Log.v("resonseShops", response.code() + "length" + response.body().size());
-                AllShops allshops = new AllShops();
-                Gson gson = new Gson();
-                allshops.setShopkeeper_items(response.body());
-                String allShopsHere = gson.toJson(allshops);
-                getSharedPreferences("MYPrefs", MODE_PRIVATE).edit().putString("shops_all", allShopsHere).apply();
+
+                try {
+                    Log.v("resonseShops", response.code() + "length" + response.body().size());
+                    AllShops allshops = new AllShops();
+                    Gson gson = new Gson();
+                    allshops.setShopkeeper_items(response.body());
+                    String allShopsHere = gson.toJson(allshops);
+                    getSharedPreferences("MYPrefs", MODE_PRIVATE).edit().putString("shops_all", allShopsHere).apply();
+                } catch (NullPointerException e) {
+                    Toast.makeText(getApplicationContext(), "Try Again...", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -151,7 +161,7 @@ public class SeacrhProductActivity extends AppCompatActivity {
 
     }
 
-    public void getProductDetail(String productDetail,final int pos) {
+    public void getProductDetail(String productDetail, final int pos) {
            /* Log.v("checkIDafterIN",getIntent().getIntExtra("SelectedSubCategoryID",8)+"");
         Call<ArrayList<ProductItem>> getproducts = apiService.listproducts(getIntent().getIntExtra("SelectedSubCategoryID",8));
         getproducts.enqueue(new Callback<ArrayList<ProductItem>>() {
@@ -187,6 +197,7 @@ public class SeacrhProductActivity extends AppCompatActivity {
             }
         });
 
+        try{
         Gson gson = new Gson();
         AllProducts allProducts = new AllProducts();
         String val = getSharedPreferences("MYPrefs", MODE_PRIVATE).
@@ -194,15 +205,19 @@ public class SeacrhProductActivity extends AppCompatActivity {
         allProducts.setProduct_items(gson.fromJson(val, AllProducts.class).getMarket_items());
 
 
-        if (MyApplication.sShopkeeper_flag == true) {
-            Intent i = new Intent(SeacrhProductActivity.this, ProductDetailActivity.class);
-            startActivity(i);
+            if (MyApplication.sShopkeeper_flag == true) {
+                Intent i = new Intent(SeacrhProductActivity.this, ProductDetailActivity.class);
+                startActivity(i);
 
-        } else {
-            Intent i = new Intent(SeacrhProductActivity.this, SearchShopsActivity.class);
-            i.putExtra("ProductId",allProducts.getMarket_items().get(pos).getProduct_id().toString());
-            startActivity(i);
+            } else {
+                Intent i = new Intent(SeacrhProductActivity.this, SearchShopsActivity.class);
+                i.putExtra("ProductId", allProducts.getMarket_items().get(pos).getProduct_id().toString());
+                startActivity(i);
+            }
+        } catch (NullPointerException e) {
+            Toast.makeText(getApplicationContext(), "Try Again...", Toast.LENGTH_SHORT).show();
         }
+
 
         // return allProducts.getMarket_items() ;
     }

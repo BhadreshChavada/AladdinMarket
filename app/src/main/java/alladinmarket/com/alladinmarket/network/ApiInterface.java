@@ -46,6 +46,12 @@ public interface ApiInterface {
     @GET("get_cart_product_list.php")
     Call<CartItemObject> listCartItems(@Query("uid") String userId);
 
+    @GET("update_cart.php")
+    Call<CartItemObject> updateCart(@Query("item_key") String itemKey,@Query("qunt") String quantity);
+
+    @GET("update_cart.php")
+    Call<CartItemObject> deleteCart(@Query("item_key") String itemKey);
+
     @GET("get_trending_prod_imgs.php")
     Call<alladinmarket.com.alladinmarket.network.pojo.ObjectImage.ImageObject> listImages();
 

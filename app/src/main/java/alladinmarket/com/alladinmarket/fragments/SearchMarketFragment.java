@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,21 +19,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 import alladinmarket.com.alladinmarket.R;
-import alladinmarket.com.alladinmarket.activities.DrawerActivity;
 import alladinmarket.com.alladinmarket.activities.ShopKeepersActivity;
-import alladinmarket.com.alladinmarket.adapters.CategoryAdaper;
 import alladinmarket.com.alladinmarket.adapters.MarketAdaper;
-import alladinmarket.com.alladinmarket.adapters.SearchShopkeeperAdaper;
-import alladinmarket.com.alladinmarket.network.ApiClient;
-import alladinmarket.com.alladinmarket.network.ApiInterface;
 import alladinmarket.com.alladinmarket.network.pojo.AllMarkets;
 import alladinmarket.com.alladinmarket.network.pojo.Market_item;
 import alladinmarket.com.alladinmarket.services.MyService;
@@ -63,21 +56,18 @@ public class SearchMarketFragment extends Fragment implements MarketAdaper.OnIte
     private String mParam2;
 
 
-
-
-
     private ArrayList<Market_item> market_items = new ArrayList<>();
 
 
     private RecyclerView mRecyclerView;
     private MarketAdaper mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private MarketAdaper.OnItemClickListener mItemClickListener ;
-    private EditText mPincode ;
+    private MarketAdaper.OnItemClickListener mItemClickListener;
+    private EditText mPincode;
 
-    private AppCompatSpinner mSpinner ;
+    private AppCompatSpinner mSpinner;
 
-    private String[] mStates = {"Delhi","Delhi","Delhi"} ;
+    private String[] mStates = {"Delhi", "Delhi", "Delhi"};
 
     private OnFragmentInteractionListener mListener;
 
@@ -116,26 +106,29 @@ public class SearchMarketFragment extends Fragment implements MarketAdaper.OnIte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search_market, container, false) ;
+        View view = inflater.inflate(R.layout.fragment_search_market, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_markets);
-        mSpinner = (AppCompatSpinner)view.findViewById(R.id.spinner_select_state);
-        mPincode = (EditText)view.findViewById(R.id.tv_pincode);
+        mSpinner = (AppCompatSpinner) view.findViewById(R.id.spinner_select_state);
+        mPincode = (EditText) view.findViewById(R.id.tv_pincode);
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        Gson gson = new Gson() ;
-        gson.fromJson(getContext().getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("markets_all",""), AllMarkets.class) ;
-        market_items=   gson.fromJson(getContext().getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("markets_all",""), AllMarkets.class).getMarket_items();
+        try {
+            Gson gson = new Gson();
+            gson.fromJson(getContext().getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("markets_all", ""), AllMarkets.class);
+            market_items = gson.fromJson(getContext().getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("markets_all", ""), AllMarkets.class).getMarket_items();
+        } catch (NullPointerException e) {
+            Toast.makeText(getActivity(), "Try Again...", Toast.LENGTH_SHORT).show();
+        }
 
 
-
-        mAdapter =new MarketAdaper(market_items) ;
+        mAdapter = new MarketAdaper(market_items);
         mRecyclerView.setAdapter(mAdapter);
-        Log.v("checkCount",mAdapter.getItemCount()+"size"+market_items.size()) ;
-        mSpinner.setAdapter(new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_dropdown_item,mStates));
+        Log.v("checkCount", mAdapter.getItemCount() + "size" + market_items.size());
+        mSpinner.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, mStates));
 
         mAdapter.setOnItemClickListener(new MarketAdaper.OnItemClickListener() {
             @Override
@@ -144,11 +137,11 @@ public class SearchMarketFragment extends Fragment implements MarketAdaper.OnIte
                 startActivity(i);
             }
         });
-        final   boolean isEditable = true ;
+        final boolean isEditable = true;
         mPincode.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (isEditable){
+                if (isEditable) {
                     v.setFocusable(true);
                     v.setFocusableInTouchMode(true);
                 } else {
@@ -159,28 +152,26 @@ public class SearchMarketFragment extends Fragment implements MarketAdaper.OnIte
             }
         });
 
-        mPincode.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-        @Override
-        public void onFocusChange (View view,boolean b){
-            if (!b) {
-                hideKeyboard();
+        mPincode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    hideKeyboard();
+                }
             }
-        }
-        }) ;
+        });
 
 
         mPincode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                  //  int foo = Integer.parseInt(mPincode.getText().toString().trim());
-                    Log.v("reach","here") ;
+                    //  int foo = Integer.parseInt(mPincode.getText().toString().trim());
+                    Log.v("reach", "here");
                     try {
                         searchMarket(Integer.parseInt(mPincode.getText().toString().trim()));
-                    }
-                    catch(NumberFormatException nue)
-                    {
-                    nue.printStackTrace();
+                    } catch (NumberFormatException nue) {
+                        nue.printStackTrace();
                     }
                     return true;
                 }
@@ -189,9 +180,7 @@ public class SearchMarketFragment extends Fragment implements MarketAdaper.OnIte
         });
 
 
-
-
-        return view ;
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -206,20 +195,20 @@ public class SearchMarketFragment extends Fragment implements MarketAdaper.OnIte
 
     {
         Call<ArrayList<Market_item>> marketItemsCall = MyService.apiService.listMarkets_pincode(pincode);
-                marketItemsCall.enqueue(new Callback<ArrayList<Market_item>>() {
-                    @Override
-                    public void onResponse(Call<ArrayList<Market_item>> call, Response<ArrayList<Market_item>> response) {
-                      Log.v("resonse",response.code()+"length"+response.body().size()) ;
-                        market_items.removeAll(market_items);
-                        market_items.addAll(response.body());
-                        mAdapter.notifyDataSetChanged();
-                    }
+        marketItemsCall.enqueue(new Callback<ArrayList<Market_item>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Market_item>> call, Response<ArrayList<Market_item>> response) {
+                Log.v("resonse", response.code() + "length" + response.body().size());
+                market_items.removeAll(market_items);
+                market_items.addAll(response.body());
+                mAdapter.notifyDataSetChanged();
+            }
 
-                    @Override
-                    public void onFailure(Call<ArrayList<Market_item>> call, Throwable t) {
+            @Override
+            public void onFailure(Call<ArrayList<Market_item>> call, Throwable t) {
 
-                    }
-                }) ;
+            }
+        });
 
     }
 
@@ -253,13 +242,11 @@ public class SearchMarketFragment extends Fragment implements MarketAdaper.OnIte
 
 
     public void hideKeyboard() {
-      //  View view = getContext().getCurrentFocus();
+        //  View view = getContext().getCurrentFocus();
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
