@@ -47,7 +47,7 @@ public interface ApiInterface {
     Call<CartItemObject> listCartItems(@Query("uid") String userId);
 
     @GET("update_cart.php")
-    Call<CartItemObject> updateCart(@Query("item_key") String itemKey,@Query("qunt") String quantity);
+    Call<CartItemObject> updateCart(@Query("item_key") String itemKey, @Query("qunt") String quantity);
 
     @GET("update_cart.php")
     Call<CartItemObject> deleteCart(@Query("item_key") String itemKey);
@@ -60,34 +60,33 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("login.php")
-    Call<LoginObject> login(@Field("username_email") String username, @Field("password") String password );
+    Call<LoginObject> login(@Field("username_email") String username, @Field("password") String password);
 
-    @FormUrlEncoded
+    @Multipart
     @POST("register.php")
-    Call<Void> register(@Field("username") String username,@Field("email") String email,
-                               @Field("password") String password, @Field("contact") String contact,
-                                @Field("user_img") String userImage);
+    Call<Void> register(@Part("username") RequestBody username, @Part("email") RequestBody email,
+                        @Part("password") RequestBody password, @Part("contact") RequestBody contact,
+                        @Part("user_img") MultipartBody.Part file);
 
 
     @GET("get_sub_category.php")
-    Call<Subcat> listSubCategory(@Query("cid") int parentID );
+    Call<Subcat> listSubCategory(@Query("cid") int parentID);
 
 
     @GET("get_product_list.php")
     Call<alladinmarket.com.alladinmarket.network.pojo.product.ProductItem>
-    listSubCategoryProducts(@Query("sc") String subcategory );
+    listSubCategoryProducts(@Query("sc") String subcategory);
 
     @GET("privacy_about.php")
     Call<Void>
-     getPrivacyPolicy();
-
+    getPrivacyPolicy();
 
 
     @GET("add_product.php")
     Call<Void>
-    addProduct(@Query("uid") String userId ,@Query("post_title") String postTitle, @Query("post_content") String content,
-               @Query("testing") String testing , @Query("sku") String pr ,@Query("price") String price ,
-               @Query("stock") String stck ,@Query("term_id") String termId);
+    addProduct(@Query("uid") String userId, @Query("post_title") String postTitle, @Query("post_content") String content,
+               @Query("testing") String testing, @Query("sku") String pr, @Query("price") String price,
+               @Query("stock") String stck, @Query("term_id") String termId);
 
     @GET("get_trends_list.php")
     Call<TrendItem>
@@ -108,46 +107,44 @@ public interface ApiInterface {
     Call<ArrayList<DistrictItem>> listDistricts();
 
     @GET("subcategories")
-    Call<ArrayList<SubCategoryItem>> listSubcategories(@Query("category")int category );
+    Call<ArrayList<SubCategoryItem>> listSubcategories(@Query("category") int category);
 
     @GET("products")
-    Call<ArrayList<ProductItem>> listproducts(@Query("subcategory")int subcategory );
+    Call<ArrayList<ProductItem>> listproducts(@Query("subcategory") int subcategory);
 
     @GET("productwise_shopkeepers")
-    Call<ArrayList<ShopkeeperItem>> listshops(@Query("product_FK")int product );
-
+    Call<ArrayList<ShopkeeperItem>> listshops(@Query("product_FK") int product);
 
 
     @GET("search_market")
-    Call<ArrayList<Market_item>> listMarkets_pincode(@Query("pincode")int pincode );
+    Call<ArrayList<Market_item>> listMarkets_pincode(@Query("pincode") int pincode);
 
     @GET("newTrends")
-    Call<ArrayList<NewTrendsItem>> getNewTrends(@Query("district")int district );
+    Call<ArrayList<NewTrendsItem>> getNewTrends(@Query("district") int district);
 
     @GET("newTrendsAll")
     Call<ArrayList<NewTrendsItem>> getNewTrendsAll();
 
     @GET("promoters")
-    Call<ArrayList<PromoterItem>> getpromoters(@Query("district")int district );
+    Call<ArrayList<PromoterItem>> getpromoters(@Query("district") int district);
 
     @GET("promotersAll")
     Call<ArrayList<PromoterItem>> getpromotersAll();
 
     @GET("productwise_shopkeepers")
-    Call<ArrayList<Market_item>> getproductwise_shopkeepers(@Query("product_FK")int product);
-
+    Call<ArrayList<Market_item>> getproductwise_shopkeepers(@Query("product_FK") int product);
 
 
     @FormUrlEncoded
     @POST("login")
-    Call<User> loginUser( @Field("email") String email,
-                           @Field("password") String password
-                        );
+    Call<User> loginUser(@Field("email") String email,
+                         @Field("password") String password
+    );
 
     @Multipart
     @POST("uploadImage")
     Call<ServerResponse> uploadFile(@Part MultipartBody.Part file, @Part("file") RequestBody name);
 
     @GET("get_product_by_shopkeeper_id.php")
-    Call<ProductDataByShopkeeper> ProductDetails(@Query("prod_id")String productID, @Query("shopkep_id")String shopkeeperID);
+    Call<ProductDataByShopkeeper> ProductDetails(@Query("prod_id") String productID, @Query("shopkep_id") String shopkeeperID);
 }
