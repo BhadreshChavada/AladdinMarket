@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AlladinMarket.iml" filepath="$PROJECT_DIR$/AlladinMarket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AladdinMarket.iml" filepath="$PROJECT_DIR$/AladdinMarket.iml" />
+      <module fileurl="file://E:\AndroidProjectsBackup\AladdinMarket\AlladinMarket.iml" filepath="E:\AndroidProjectsBackup\AladdinMarket\AlladinMarket.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
