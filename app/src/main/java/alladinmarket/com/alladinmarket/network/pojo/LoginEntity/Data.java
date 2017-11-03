@@ -11,28 +11,37 @@ public class Data {
     private Integer iD;
     @SerializedName("user_login")
     @Expose
-    private String user_login;
+    private String userLogin;
     @SerializedName("user_nicename")
     @Expose
-    private String user_nicename;
+    private String userNicename;
     @SerializedName("user_email")
     @Expose
-    private String user_email;
+    private String userEmail;
     @SerializedName("user_url")
     @Expose
-    private String user_url;
+    private String userUrl;
     @SerializedName("user_registered")
     @Expose
-    private String user_registered;
+    private String userRegistered;
     @SerializedName("first_name")
     @Expose
-    private String first_name;
+    private String firstName;
     @SerializedName("last_name")
     @Expose
-    private String last_name;
+    private String lastName;
     @SerializedName("description")
     @Expose
     private String description;
+    @SerializedName("contact_no")
+    @Expose
+    private String contactNo;
+    @SerializedName("profile_img")
+    @Expose
+    private String profileImg;
+    @SerializedName("role")
+    @Expose
+    private String role;
 
     public Integer getID() {
         return iD;
@@ -42,60 +51,60 @@ public class Data {
         this.iD = iD;
     }
 
-    public String getUser_login() {
-        return user_login;
+    public String getUserLogin() {
+        return userLogin;
     }
 
-    public void setUser_login(String user_login) {
-        this.user_login = user_login;
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 
-    public String getUser_nicename() {
-        return user_nicename;
+    public String getUserNicename() {
+        return userNicename;
     }
 
-    public void setUser_nicename(String user_nicename) {
-        this.user_nicename = user_nicename;
+    public void setUserNicename(String userNicename) {
+        this.userNicename = userNicename;
     }
 
-    public String getUser_email() {
-        return user_email;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUser_email(String user_email) {
-        this.user_email = user_email;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
-    public String getUser_url() {
-        return user_url;
+    public String getUserUrl() {
+        return userUrl;
     }
 
-    public void setUser_url(String user_url) {
-        this.user_url = user_url;
+    public void setUserUrl(String userUrl) {
+        this.userUrl = userUrl;
     }
 
-    public String getUser_registered() {
-        return user_registered;
+    public String getUserRegistered() {
+        return userRegistered;
     }
 
-    public void setUser_registered(String user_registered) {
-        this.user_registered = user_registered;
+    public void setUserRegistered(String userRegistered) {
+        this.userRegistered = userRegistered;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getDescription() {
@@ -104,6 +113,30 @@ public class Data {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
+    }
+
+    public String getProfileImg() {
+        return profileImg;
+    }
+
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
 }

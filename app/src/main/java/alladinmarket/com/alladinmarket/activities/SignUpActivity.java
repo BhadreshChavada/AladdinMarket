@@ -5,10 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -25,7 +27,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
+import alladinmarket.com.alladinmarket.Manifest;
 import alladinmarket.com.alladinmarket.R;
 import alladinmarket.com.alladinmarket.network.ApiClient;
 import alladinmarket.com.alladinmarket.network.ApiInterface;
@@ -42,6 +46,8 @@ import static alladinmarket.com.alladinmarket.services.MyService.apiService;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 15;
+    private static final int MY_PERMISSIONS_REQUEST_READ_CAMERA = 20;
     private EditText mEmail;
     private EditText mPassword;
     private EditText mContactNo;
@@ -88,41 +94,32 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void login(View v) {
 
-//        try {
-//            uploadFile();
-//        }
-//            catch (NullPointerException ex)
-//            {
-//                ex.printStackTrace();
-//            }
-//        @Field("username") String username, @Field("email") String email,
-//        @Field("password") String password, @Field("contact") String contact,
-//        @Part("user_img") MultipartBody.Part file)
-
-//        idProof = new TypedFile("multipart/form-data", new File(pathIdProofPic));
-//        files.put("idProof", idProof);
-
-
-        File file = new File(filePath);
-        // create RequestBody instance from file
-        RequestBody requestFile =
-                RequestBody.create(MediaType.parse("multipart/form-data"), file);
-
-        MultipartBody.Part fileData =
-                MultipartBody.Part.createFormData("user_img", filePath, requestFile);
 
 
 
 
+        HashMap<String, String> map = new HashMap<>();
+        map.put("username", mName.getText().toString());
+        map.put("email", mEmail.getText().toString());
+        map.put("password", mPassword.getText().toString());
+        map.put("contact", mContactNo.getText().toString());
+        map.put("role", "user");
 
-        Call<Void> call = apiService.register( RequestBody.create(
-                MediaType.parse("multipart/form-data"), mName.getText().toString()),
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), mEmail.getText().toString()),
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), mPassword.getText().toString()),
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), mContactNo.getText().toString()), fileData);
+        Call<Void> call;
+        if (filePath != null) {
+
+            File file = new File(filePath);
+            // create RequestBody instance from file
+            RequestBody requestFile =
+                    RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+            MultipartBody.Part fileData =
+                    MultipartBody.Part.createFormData("user_img", filePath, requestFile);
+            call = apiService.register(map, fileData);
+        } else {
+            call = apiService.register(map);
+        }
+
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -131,11 +128,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (response.message().compareToIgnoreCase("ok") == 0) {
                     Intent i = new Intent(SignUpActivity.this, DrawerActivity.class);
-      /*  i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
-
-
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(i);
                 }
             }
@@ -145,6 +140,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Log.v("reachhere", "yesagain");
             }
         });
+
 
     }
 
@@ -182,31 +178,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void cameraIntent() {
-//        File photoFile = null ;
-//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        // Ensure that there's a camera activity to handle the intent
-//        if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
-//            // Create the File where the photo should go
-//            // File photoFile = null;
-//
-//            try {
-//
-//
-//                photoFile = createImageFile();
-//            } catch (IOException ex) {
-//                // Error occurred while creating the File
-//
-//            }
-//
-//            // Continue only if the File was successfully created
-//            if (photoFile != null) {
-//                /* uri = FileProvider.getUriForFile(getContext(),
-//                        photoFile.getAbsolutePath(),
-//                        photoFile);*/
-//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,getPhotoFileUri("pic.JPEG"));
-//                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-//            }
-//        }
+
 
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
@@ -337,6 +309,15 @@ public class SignUpActivity extends AppCompatActivity {
 
                             mProfileImage.setImageBitmap(Bitmap.createScaledBitmap(mBitMap, 1366, 768, false));
 
+                            // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+                            Uri tempUri = getImageUri(getApplicationContext(), mBitMap);
+
+                            // CALL THIS METHOD TO GET THE ACTUAL PATH
+                            File finalFile = new File(getRealPathFromURI(tempUri));
+
+                            filePath = finalFile.getAbsolutePath();
+
+                            Log.d("FilePath1111", filePath);
                         } catch (Exception exception) {
                             // Crashlytics.logException(exception);
                             throw new RuntimeException("Stub!");
@@ -426,5 +407,70 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        MY_PERMISSIONS_REQUEST_READ_CAMERA);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant
+
+                return;
+            }
+
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant
+
+                return;
+            }
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_CAMERA: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! do the
+                    // calendar task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:{
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! do the
+                    // calendar task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            // other 'switch' lines to check for other
+            // permissions this app might request
+        }
+    }
 }

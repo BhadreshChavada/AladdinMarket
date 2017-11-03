@@ -2,6 +2,7 @@ package alladinmarket.com.alladinmarket.network;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import alladinmarket.com.alladinmarket.network.pojo.CartItems.CartItemObject;
 import alladinmarket.com.alladinmarket.network.pojo.Categories;
@@ -30,6 +31,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by nmn on 5/4/17.
@@ -64,9 +66,11 @@ public interface ApiInterface {
 
     @Multipart
     @POST("register.php")
-    Call<Void> register(@Part("username") RequestBody username, @Part("email") RequestBody email,
-                        @Part("password") RequestBody password, @Part("contact") RequestBody contact,
-                        @Part("user_img") MultipartBody.Part file);
+    Call<Void> register(@QueryMap HashMap<String, String> map, @Part MultipartBody.Part file);
+
+
+    @POST("register.php")
+    Call<Void> register(@QueryMap HashMap<String, String> map);
 
 
     @GET("get_sub_category.php")
@@ -147,4 +151,12 @@ public interface ApiInterface {
 
     @GET("get_product_by_shopkeeper_id.php")
     Call<ProductDataByShopkeeper> ProductDetails(@Query("prod_id") String productID, @Query("shopkep_id") String shopkeeperID);
+
+    @Multipart
+    @POST("edit_profile.php")
+    Call<Void> updateProfile(@QueryMap HashMap<String, String> map, @Part MultipartBody.Part file);
+
+
+    @POST("edit_profile.php")
+    Call<Void> updateProfile(@QueryMap HashMap<String, String> map);
 }
