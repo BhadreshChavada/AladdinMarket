@@ -33,6 +33,7 @@ import alladinmarket.com.alladinmarket.Manifest;
 import alladinmarket.com.alladinmarket.R;
 import alladinmarket.com.alladinmarket.network.ApiClient;
 import alladinmarket.com.alladinmarket.network.ApiInterface;
+import alladinmarket.com.alladinmarket.network.pojo.MainRes;
 import alladinmarket.com.alladinmarket.network.pojo.ServerResponse;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
@@ -95,9 +96,6 @@ public class SignUpActivity extends AppCompatActivity {
     public void login(View v) {
 
 
-
-
-
         HashMap<String, String> map = new HashMap<>();
         map.put("username", mName.getText().toString());
         map.put("email", mEmail.getText().toString());
@@ -105,7 +103,7 @@ public class SignUpActivity extends AppCompatActivity {
         map.put("contact", mContactNo.getText().toString());
         map.put("role", "user");
 
-        Call<Void> call;
+        Call<MainRes> call;
         if (filePath != null) {
 
             File file = new File(filePath);
@@ -120,13 +118,11 @@ public class SignUpActivity extends AppCompatActivity {
             call = apiService.register(map);
         }
 
-        call.enqueue(new Callback<Void>() {
+        call.enqueue(new Callback<MainRes>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                Log.v("response", "error" + response.errorBody() + response.code() + response.message() + response.isSuccessful()
-                );
-
-                if (response.message().compareToIgnoreCase("ok") == 0) {
+            public void onResponse(Call<MainRes> call, Response<MainRes> response) {
+                MainRes obj = response.body();
+                if (obj.getStatus().equalsIgnoreCase("true")) {
                     Intent i = new Intent(SignUpActivity.this, DrawerActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -136,7 +132,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<MainRes> call, Throwable t) {
                 Log.v("reachhere", "yesagain");
             }
         });
@@ -456,7 +452,7 @@ public class SignUpActivity extends AppCompatActivity {
                 return;
             }
 
-            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:{
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // permission was granted, yay! do the

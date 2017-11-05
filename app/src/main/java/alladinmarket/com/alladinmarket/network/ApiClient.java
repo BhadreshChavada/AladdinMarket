@@ -9,9 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 // http://jay.seretoneinfotech.com/api/
-    public static final String BASE_URL = "http://webkunj.com/demo/android_api/";
+//    public static final String BASE_URL = "http://webkunj.com/demo/android_api/";
 
-  //  public static final String BASE_URL = "http://jay.seretoneinfotech.com/api/";
+    public static final String BASE_URL = "http://jay.seretoneinfotech.com/api/";
     private static Retrofit retrofit = null;
 
 

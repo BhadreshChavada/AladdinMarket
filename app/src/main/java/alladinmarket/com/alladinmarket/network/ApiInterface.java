@@ -8,6 +8,7 @@ import alladinmarket.com.alladinmarket.network.pojo.CartItems.CartItemObject;
 import alladinmarket.com.alladinmarket.network.pojo.Categories;
 import alladinmarket.com.alladinmarket.network.pojo.DistrictItem;
 import alladinmarket.com.alladinmarket.network.pojo.LoginEntity.LoginObject;
+import alladinmarket.com.alladinmarket.network.pojo.MainRes;
 import alladinmarket.com.alladinmarket.network.pojo.Market_item;
 import alladinmarket.com.alladinmarket.network.pojo.NewTrendsItem;
 import alladinmarket.com.alladinmarket.network.pojo.OrderObject.OrderObject;
@@ -66,11 +67,11 @@ public interface ApiInterface {
 
     @Multipart
     @POST("register.php")
-    Call<Void> register(@QueryMap HashMap<String, String> map, @Part MultipartBody.Part file);
+    Call<MainRes> register(@QueryMap HashMap<String, String> map, @Part MultipartBody.Part file);
 
 
     @POST("register.php")
-    Call<Void> register(@QueryMap HashMap<String, String> map);
+    Call<MainRes> register(@QueryMap HashMap<String, String> map);
 
 
     @GET("get_sub_category.php")

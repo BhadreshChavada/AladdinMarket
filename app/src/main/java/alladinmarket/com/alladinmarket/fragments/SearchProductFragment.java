@@ -109,34 +109,35 @@ public class SearchProductFragment extends Fragment implements CategoryAdaper.On
 
 
             mAdapter = new CategoryAdaper(getContext(), categories);
+
+
+            DrawerActivity.setOnSearchQueryListener(this);
+            mRecyclerView.setAdapter(mAdapter);
+            //  mAdapter.setOnItemClickListener(new CategoryAdaper.OnItemClickListener())
+            mAdapter.setOnItemClickListener(new CategoryAdaper.OnItemClickListener() {
+                @Override
+                public void onItemClick(View itemView, int position) {
+
+                    try {
+                        Log.d("CategorySize", String.valueOf(categories.size()));
+
+                        Intent i = new Intent(getContext(), SubcategoryActivity.class);
+                        Log.v("checkId", categories.get(position).getTerm_id() + "");
+                        i.putExtra("selectedCategoryID", categories.get(position).getTerm_id());
+                        startActivity(i);
+                    } catch (NullPointerException e) {
+                        Toast.makeText(getActivity(), "Try Again...", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         } catch (NullPointerException e) {
             Toast.makeText(getActivity(), "Try Again...", Toast.LENGTH_SHORT).show();
         }
 
-        DrawerActivity.setOnSearchQueryListener(this);
-        mRecyclerView.setAdapter(mAdapter);
-        //  mAdapter.setOnItemClickListener(new CategoryAdaper.OnItemClickListener())
-        mAdapter.setOnItemClickListener(new CategoryAdaper.OnItemClickListener() {
-                                            @Override
-                                            public void onItemClick(View itemView, int position) {
-
-                                                try {
-                                                    Log.d("CategorySize", String.valueOf(categories.size()));
-
-                                                    Intent i = new Intent(getContext(), SubcategoryActivity.class);
-                                                    Log.v("checkId", categories.get(position).getTerm_id() + "");
-                                                    i.putExtra("selectedCategoryID", categories.get(position).getTerm_id());
-                                                    startActivity(i);
-                                                } catch (NullPointerException e) {
-                                                    Toast.makeText(getActivity(), "Try Again...", Toast.LENGTH_SHORT).show();
-                                                }
-                                                }
-                                            });
-
         return view;
-                                        }
+    }
 
-                // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, update argument and hook method into UI event
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
