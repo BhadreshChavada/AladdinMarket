@@ -75,7 +75,7 @@ public class NewTrendsFragment extends Fragment {
             public void onItemClick(View itemView, int position) {
                 Intent i = new Intent(getContext(), ProductDetailActivity.class);
 //                Log.d("SDSD",trendsAll.get(position).getProduct_id());
-                i.putExtra("ProductId", trendsAll.get(position).getProduct_id());
+                i.putExtra("ProductId", trendsAll.get(position).getProductId());
                 startActivity(i);
             }
         });

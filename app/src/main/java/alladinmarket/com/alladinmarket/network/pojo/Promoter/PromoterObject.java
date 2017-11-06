@@ -41,4 +41,5 @@ public class PromoterObject {
         this.promoter = promoter;
     }
 
+
 }

@@ -234,7 +234,7 @@ public class LandingFragment extends Fragment{
                 AllImages allImages = gs.fromJson(str,AllImages.class);
                 for (int i =0 ; i<allImages.getArrayList().size();i++)
                 {
-                 strings.add(allImages.getArrayList().get(i).getProduct_image());
+                 strings.add(allImages.getArrayList().get(i).getProductImage());
                 }
 
 

@@ -8,61 +8,61 @@ public class Datum {
 
     @SerializedName("product_id")
     @Expose
-    private Integer product_id;
+    private Integer productId;
     @SerializedName("product_name")
     @Expose
-    private String product_name;
+    private String productName;
     @SerializedName("product_image")
     @Expose
-    private String product_image;
+    private String productImage;
     @SerializedName("product_price")
     @Expose
-    private String product_price;
+    private String productPrice;
     @SerializedName("product_regular_price")
     @Expose
-    private String product_regular_price;
+    private String productRegularPrice;
     @SerializedName("pricePerUnit")
     @Expose
     private String pricePerUnit;
 
-    public Integer getProduct_id() {
-        return product_id;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setProduct_id(Integer product_id) {
-        this.product_id = product_id;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
-    public String getProduct_name() {
-        return product_name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getProduct_image() {
-        return product_image;
+    public String getProductImage() {
+        return productImage;
     }
 
-    public void setProduct_image(String product_image) {
-        this.product_image = product_image;
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
     }
 
-    public String getProduct_price() {
-        return product_price;
+    public String getProductPrice() {
+        return productPrice;
     }
 
-    public void setProduct_price(String product_price) {
-        this.product_price = product_price;
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
     }
 
-    public String getProduct_regular_price() {
-        return product_regular_price;
+    public String getProductRegularPrice() {
+        return productRegularPrice;
     }
 
-    public void setProduct_regular_price(String product_regular_price) {
-        this.product_regular_price = product_regular_price;
+    public void setProductRegularPrice(String productRegularPrice) {
+        this.productRegularPrice = productRegularPrice;
     }
 
     public String getPricePerUnit() {

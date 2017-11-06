@@ -122,8 +122,8 @@ public class SearchProductFragment extends Fragment implements CategoryAdaper.On
                         Log.d("CategorySize", String.valueOf(categories.size()));
 
                         Intent i = new Intent(getContext(), SubcategoryActivity.class);
-                        Log.v("checkId", categories.get(position).getTerm_id() + "");
-                        i.putExtra("selectedCategoryID", categories.get(position).getTerm_id());
+                        Log.v("checkId", categories.get(position).getTermId() + "");
+                        i.putExtra("selectedCategoryID", categories.get(position).getTermId());
                         startActivity(i);
                     } catch (NullPointerException e) {
                         Toast.makeText(getActivity(), "Try Again...", Toast.LENGTH_SHORT).show();

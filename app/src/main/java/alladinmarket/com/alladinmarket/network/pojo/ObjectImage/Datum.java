@@ -8,36 +8,36 @@ public class Datum {
 
     @SerializedName("product_id")
     @Expose
-    private Integer product_id;
+    private Integer productId;
     @SerializedName("product_name")
     @Expose
-    private String product_name;
+    private String productName;
     @SerializedName("product_image")
     @Expose
-    private String product_image;
+    private String productImage;
 
-    public Integer getProduct_id() {
-        return product_id;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setProduct_id(Integer product_id) {
-        this.product_id = product_id;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
-    public String getProduct_name() {
-        return product_name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getProduct_image() {
-        return product_image;
+    public String getProductImage() {
+        return productImage;
     }
 
-    public void setProduct_image(String product_image) {
-        this.product_image = product_image;
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
     }
 
 }

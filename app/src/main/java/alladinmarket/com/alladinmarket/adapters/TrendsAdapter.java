@@ -54,7 +54,7 @@ private String[] mDataset;
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-    holder.productName.setText(newTrendsItems.get(position).getProduct_name());
+    holder.productName.setText(newTrendsItems.get(position).getProductName());
 
     }
 

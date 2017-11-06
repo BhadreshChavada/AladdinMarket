@@ -8,7 +8,7 @@ public class Category {
 
     @SerializedName("term_id")
     @Expose
-    private Integer term_id;
+    private Integer termId;
     @SerializedName("name")
     @Expose
     private String name;
@@ -17,10 +17,10 @@ public class Category {
     private String slug;
     @SerializedName("term_group")
     @Expose
-    private Integer term_group;
+    private Integer termGroup;
     @SerializedName("term_taxonomy_id")
     @Expose
-    private Integer term_taxonomy_id;
+    private Integer termTaxonomyId;
     @SerializedName("taxonomy")
     @Expose
     private String taxonomy;
@@ -34,12 +34,12 @@ public class Category {
     @Expose
     private String filter;
 
-    public Integer getTerm_id() {
-        return term_id;
+    public Integer getTermId() {
+        return termId;
     }
 
-    public void setTerm_id(Integer term_id) {
-        this.term_id = term_id;
+    public void setTermId(Integer termId) {
+        this.termId = termId;
     }
 
     public String getName() {
@@ -58,20 +58,20 @@ public class Category {
         this.slug = slug;
     }
 
-    public Integer getTerm_group() {
-        return term_group;
+    public Integer getTermGroup() {
+        return termGroup;
     }
 
-    public void setTerm_group(Integer term_group) {
-        this.term_group = term_group;
+    public void setTermGroup(Integer termGroup) {
+        this.termGroup = termGroup;
     }
 
-    public Integer getTerm_taxonomy_id() {
-        return term_taxonomy_id;
+    public Integer getTermTaxonomyId() {
+        return termTaxonomyId;
     }
 
-    public void setTerm_taxonomy_id(Integer term_taxonomy_id) {
-        this.term_taxonomy_id = term_taxonomy_id;
+    public void setTermTaxonomyId(Integer termTaxonomyId) {
+        this.termTaxonomyId = termTaxonomyId;
     }
 
     public String getTaxonomy() {
