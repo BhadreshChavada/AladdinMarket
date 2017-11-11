@@ -58,74 +58,76 @@ public class NewTrendsFragment extends Fragment {
         mDistrict = (EditText) v.findViewById(R.id.edt_search_district);
         // specify an adapter (see also next example)
 
-
-        Gson gson = new Gson();
+        try {
+            Gson gson = new Gson();
        /* gson.fromJson(getContext().getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("trends_all",""), AllPromoters.class) ;*/
-        trendsAll = gson.fromJson(getContext().
-                getSharedPreferences("MYPrefs", MODE_PRIVATE).
-                getString("trends_all", ""), AllNewTrends.class).getNewTrends_items();
+            trendsAll = gson.fromJson(getContext().
+                    getSharedPreferences("MYPrefs", MODE_PRIVATE).
+                    getString("trends_all", ""), AllNewTrends.class).getNewTrends_items();
 
-        districtItems = gson.fromJson(getContext().
-                getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("districts_all", ""), AllDistricts.class).getDistrict_items();
+            districtItems = gson.fromJson(getContext().
+                    getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("districts_all", ""), AllDistricts.class).getDistrict_items();
 
 
-        mAdapter = new TrendsAdapter(trendsAll);
-        mAdapter.setOnItemClickListener(new TrendsAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
-                Intent i = new Intent(getContext(), ProductDetailActivity.class);
+            mAdapter = new TrendsAdapter(trendsAll);
+            mAdapter.setOnItemClickListener(new TrendsAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View itemView, int position) {
+                    Intent i = new Intent(getContext(), ProductDetailActivity.class);
 //                Log.d("SDSD",trendsAll.get(position).getProduct_id());
-                i.putExtra("ProductId", trendsAll.get(position).getProductId());
-                startActivity(i);
-            }
-        });
-
-
-        mRecyclerView.setAdapter(mAdapter);
-
-        final boolean isEditable = true;
-        mDistrict.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (isEditable) {
-                    v.setFocusable(true);
-                    v.setFocusableInTouchMode(true);
-                } else {
-                    mDistrict.setFocusable(false);
+                    i.putExtra("ProductId", trendsAll.get(position).getProductId());
+                    startActivity(i);
                 }
-
-                return false;
-            }
-        });
-
-        mDistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b) {
-                    hideKeyboard();
-                }
-            }
-        });
+            });
 
 
-        mDistrict.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //  int foo = Integer.parseInt(mPincode.getText().toString().trim());
-                    Log.v("reach", "here");
-                    try {
-                        //  searchMarket(Integer.parseInt(mPincode.getText().toString().trim()));
-                        searchTrends(getIdForDistrict(mDistrict.getText().toString().trim()));
-                    } catch (NumberFormatException nue) {
-                        nue.printStackTrace();
+            mRecyclerView.setAdapter(mAdapter);
+
+            final boolean isEditable = true;
+            mDistrict.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (isEditable) {
+                        v.setFocusable(true);
+                        v.setFocusableInTouchMode(true);
+                    } else {
+                        mDistrict.setFocusable(false);
                     }
-                    return true;
-                }
-                return false;
-            }
-        });
 
+                    return false;
+                }
+            });
+
+            mDistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    if (!b) {
+                        hideKeyboard();
+                    }
+                }
+            });
+
+
+            mDistrict.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        //  int foo = Integer.parseInt(mPincode.getText().toString().trim());
+                        Log.v("reach", "here");
+                        try {
+                            //  searchMarket(Integer.parseInt(mPincode.getText().toString().trim()));
+                            searchTrends(getIdForDistrict(mDistrict.getText().toString().trim()));
+                        } catch (NumberFormatException nue) {
+                            nue.printStackTrace();
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         return v;
     }

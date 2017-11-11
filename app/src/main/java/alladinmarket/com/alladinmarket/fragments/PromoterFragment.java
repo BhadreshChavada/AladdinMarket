@@ -26,7 +26,6 @@ import alladinmarket.com.alladinmarket.activities.PromoterDetailActivity;
 import alladinmarket.com.alladinmarket.adapters.PromoterAdaper;
 import alladinmarket.com.alladinmarket.network.pojo.AllDistricts;
 import alladinmarket.com.alladinmarket.network.pojo.AllMarkets;
-
 import alladinmarket.com.alladinmarket.network.pojo.DistrictItem;
 import alladinmarket.com.alladinmarket.network.pojo.Promoter.Promoter;
 import alladinmarket.com.alladinmarket.network.pojo.Promoter.PromoterObject;
@@ -46,7 +45,7 @@ public class PromoterFragment extends Fragment {
     private ArrayList<Promoter> promoterItems = new ArrayList<>();
     private ArrayList<DistrictItem> districtItems = new ArrayList<>();
 
-    private EditText mDistrict ;
+    private EditText mDistrict;
 
 
     @Override
@@ -54,89 +53,89 @@ public class PromoterFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_new_trends, container, false);
         // Set title bar
 
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_search_trends_list);
-        mDistrict = (EditText)v.findViewById(R.id.edt_search_district);
+        try {
+            mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_search_trends_list);
+            mDistrict = (EditText) v.findViewById(R.id.edt_search_district);
 
 
-        mLayoutManager = new GridLayoutManager(getContext(),2);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+            mLayoutManager = new GridLayoutManager(getContext(), 2);
+            mRecyclerView.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
-
-
-        Gson gson = new Gson() ;
-        gson.fromJson(getContext().getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("markets_all",""), AllMarkets.class) ;
-        promoterItems=
-                (ArrayList<Promoter>) gson.fromJson(getContext().
-                        getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("promoters_all",""), PromoterObject.class)
-                        .getPromoter() ;
+            // specify an adapter (see also next example)
 
 
-        Log.v("check_list",promoterItems.size()+"") ;
-        districtItems =
-                gson.fromJson(getContext().
-                        getSharedPreferences("MYPrefs",MODE_PRIVATE).getString("districts_all",""), AllDistricts.class).getDistrict_items();
+            Gson gson = new Gson();
+            gson.fromJson(getContext().getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("markets_all", ""), AllMarkets.class);
+            promoterItems =
+                    (ArrayList<Promoter>) gson.fromJson(getContext().
+                            getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("promoters_all", ""), PromoterObject.class)
+                            .getPromoter();
 
 
-        mAdapter = new PromoterAdaper(promoterItems);
-
-        mAdapter.setOnItemClickListener(new PromoterAdaper.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
-                Intent i = new Intent(getContext(), PromoterDetailActivity.class) ;
-                startActivity(i);
-            }
-        });
-
-        mRecyclerView.setAdapter(mAdapter);
+            Log.v("check_list", promoterItems.size() + "");
+            districtItems =
+                    gson.fromJson(getContext().
+                            getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("districts_all", ""), AllDistricts.class).getDistrict_items();
 
 
-        final   boolean isEditable = true ;
-        mDistrict.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (isEditable){
-                    v.setFocusable(true);
-                    v.setFocusableInTouchMode(true);
-                } else {
-                    mDistrict.setFocusable(false);
+            mAdapter = new PromoterAdaper(promoterItems);
+
+            mAdapter.setOnItemClickListener(new PromoterAdaper.OnItemClickListener() {
+                @Override
+                public void onItemClick(View itemView, int position) {
+                    Intent i = new Intent(getContext(), PromoterDetailActivity.class);
+                    startActivity(i);
                 }
+            });
 
-                return false;
-            }
-        });
-
-        mDistrict.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-            @Override
-            public void onFocusChange (View view,boolean b){
-                if (!b) {
-                    hideKeyboard();
-                }
-            }
-        }) ;
+            mRecyclerView.setAdapter(mAdapter);
 
 
-        mDistrict.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //  int foo = Integer.parseInt(mPincode.getText().toString().trim());
-                    Log.v("reach","here") ;
-                    try {
-                        //  searchMarket(Integer.parseInt(mPincode.getText().toString().trim()));
-                        //searchPromoter(getIdForDistrict(mDistrict.getText().toString().trim())) ;
+            final boolean isEditable = true;
+            mDistrict.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (isEditable) {
+                        v.setFocusable(true);
+                        v.setFocusableInTouchMode(true);
+                    } else {
+                        mDistrict.setFocusable(false);
                     }
-                    catch(NumberFormatException nue)
-                    {
-                        nue.printStackTrace();
-                    }
-                    return true;
+
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+
+            mDistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    if (!b) {
+                        hideKeyboard();
+                    }
+                }
+            });
 
 
+            mDistrict.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        //  int foo = Integer.parseInt(mPincode.getText().toString().trim());
+                        Log.v("reach", "here");
+                        try {
+                            //  searchMarket(Integer.parseInt(mPincode.getText().toString().trim()));
+                            //searchPromoter(getIdForDistrict(mDistrict.getText().toString().trim())) ;
+                        } catch (NumberFormatException nue) {
+                            nue.printStackTrace();
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
 
         return v;
@@ -167,15 +166,14 @@ public class PromoterFragment extends Fragment {
         for (DistrictItem districtItem : districtItems)
 
         {
-            if (districtItem.getName().compareToIgnoreCase(districtName)==0)
-            {
+            if (districtItem.getName().compareToIgnoreCase(districtName) == 0) {
                 ;
-                return Integer.parseInt(districtItem.getId()) ;
+                return Integer.parseInt(districtItem.getId());
 
             }
 
         }
-        return 0 ;
+        return 0;
         //for (int i= 0, i<districtItems.size(),i++){};
     }
 
@@ -184,9 +182,7 @@ public class PromoterFragment extends Fragment {
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

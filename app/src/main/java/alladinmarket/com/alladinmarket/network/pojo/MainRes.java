@@ -8,9 +8,11 @@ public class MainRes {
     @SerializedName("status")
     @Expose
     private String status;
+
     @SerializedName("msg")
     @Expose
     private String msg;
+
     @SerializedName("user_id")
     @Expose
     private Integer userId;

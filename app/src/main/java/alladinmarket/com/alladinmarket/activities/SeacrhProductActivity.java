@@ -19,7 +19,6 @@ import alladinmarket.com.alladinmarket.R;
 import alladinmarket.com.alladinmarket.adapters.SearchProductAdaper;
 import alladinmarket.com.alladinmarket.fragments.SearchShopsActivity;
 import alladinmarket.com.alladinmarket.network.pojo.AllShops;
-import alladinmarket.com.alladinmarket.network.pojo.ProductDetails.ProductDetailItem;
 import alladinmarket.com.alladinmarket.network.pojo.ProductItem;
 import alladinmarket.com.alladinmarket.network.pojo.ShopkeeperItem;
 import alladinmarket.com.alladinmarket.network.pojo.product.AllProducts;
@@ -30,7 +29,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static alladinmarket.com.alladinmarket.services.MyService.apiService;
-import static alladinmarket.com.alladinmarket.services.MyService.apiServiceActual;
 
 public class SeacrhProductActivity extends AppCompatActivity {
 
@@ -74,25 +72,20 @@ public class SeacrhProductActivity extends AppCompatActivity {
             Log.v("checkItems", productItems.size() + "size");
             mAdapter = new SearchProductAdaper(getProducts());
 
+            mAdapter.setOnItemClickListener(new SearchProductAdaper.OnItemClickListener() {
+                @Override
+                public void onItemClick(View itemView, int position) {
+                    getProductDetail(getIntent().getExtras().getString("SelectedSubCategoryID"), position);
+                }
+            });
+
+            mRecyclerView.setAdapter(mAdapter);
+            Log.v("finalSize", productItems.size() + "");
         } catch (NullPointerException e) {
             Toast.makeText(getApplicationContext(), "Try Again...", Toast.LENGTH_SHORT).show();
         }
         getShopKeepers();
 
-
-        mAdapter.setOnItemClickListener(new SearchProductAdaper.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
-
-
-                getProductDetail(getIntent().getExtras().getString("SelectedSubCategoryID"), position);
-
-
-            }
-        });
-
-        mRecyclerView.setAdapter(mAdapter);
-        Log.v("finalSize", productItems.size() + "");
 
     }
 
@@ -136,7 +129,7 @@ public class SeacrhProductActivity extends AppCompatActivity {
 
     public void getShopKeepers() {
 
-        Call<ArrayList<ShopkeeperItem>> getproducts = apiService.listshops(0);
+        Call<ArrayList<ShopkeeperItem>> getproducts = apiService.listshops("0");
         getproducts.enqueue(new Callback<ArrayList<ShopkeeperItem>>() {
             @Override
             public void onResponse(Call<ArrayList<ShopkeeperItem>> call, Response<ArrayList<ShopkeeperItem>> response) {
@@ -181,28 +174,28 @@ public class SeacrhProductActivity extends AppCompatActivity {
             return productItems;*/
 
 
-        Call<ProductDetailItem> getproducts = apiServiceActual.listProductDetail(productDetail);
-        getproducts.enqueue(new Callback<ProductDetailItem>() {
-            @Override
-            public void onResponse(Call<ProductDetailItem> call, Response<ProductDetailItem> response) {
-                Log.v("responseProductDetail", response.code() + "length" + response.body().getData());
-                //  productItems = response.body() ;
+//        Call<ProductDetailItem> getproducts = apiServiceActual.listProductDetail(productDetail);
+//        getproducts.enqueue(new Callback<ProductDetailItem>() {
+//            @Override
+//            public void onResponse(Call<ProductDetailItem> call, Response<ProductDetailItem> response) {
+//                Log.v("responseProductDetail", response.code() + "length" + response.body().getData());
+//                //  productItems = response.body() ;
+//
+//                //mAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProductDetailItem> call, Throwable t) {
+//
+//            }
+//        });
 
-                //mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<ProductDetailItem> call, Throwable t) {
-
-            }
-        });
-
-        try{
-        Gson gson = new Gson();
-        AllProducts allProducts = new AllProducts();
-        String val = getSharedPreferences("MYPrefs", MODE_PRIVATE).
-                getString("products_all", "");
-        allProducts.setProduct_items(gson.fromJson(val, AllProducts.class).getMarket_items());
+        try {
+            Gson gson = new Gson();
+            AllProducts allProducts = new AllProducts();
+            String val = getSharedPreferences("MYPrefs", MODE_PRIVATE).
+                    getString("products_all", "");
+            allProducts.setProduct_items(gson.fromJson(val, AllProducts.class).getMarket_items());
 
 
             if (MyApplication.sShopkeeper_flag == true) {

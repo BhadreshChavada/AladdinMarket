@@ -56,28 +56,28 @@ public class MyService extends Service {
             @Override
             public void run() {
 
-//                Call<ArrayList<Market_item>> call = apiService.listMarkets();
-//                call.enqueue(new Callback<ArrayList<Market_item>>() {
-//                    @Override
-//                    public void onResponse(Call<ArrayList<Market_item>> call, Response<ArrayList<Market_item>> response) {
-//                        try {
-//                            Log.v("checkAPI", "response_code" + response.code() + "lentgh" + response.body().size());
-//                            AllMarkets allMarkets = new AllMarkets();
-//                            Gson gson = new Gson();
-//                            allMarkets.setMarket_items(response.body());
-//                            String allMarket = gson.toJson(allMarkets);
-//                            getSharedPreferences("MYPrefs", MODE_PRIVATE).edit().putString("markets_all", allMarket).apply();
-//                        } catch (NullPointerException w) {
-//                        } catch (Exception e) {
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ArrayList<Market_item>> call, Throwable t) {
-//                        Log.v("errorAPI", "response_error" + "someError");
-//                    }
-//                });
+                Call<ArrayList<Market_item>> call = apiService.listMarkets();
+                call.enqueue(new Callback<ArrayList<Market_item>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<Market_item>> call, Response<ArrayList<Market_item>> response) {
+                        try {
+                            Log.v("checkAPI", "response_code" + response.code() + "lentgh" + response.body().size());
+                            AllMarkets allMarkets = new AllMarkets();
+                            Gson gson = new Gson();
+                            allMarkets.setMarket_items(response.body());
+                            String allMarket = gson.toJson(allMarkets);
+                            getSharedPreferences("MYPrefs", MODE_PRIVATE).edit().putString("markets_all", allMarket).apply();
+                        } catch (NullPointerException w) {
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<Market_item>> call, Throwable t) {
+                        Log.v("errorAPI", "response_error" + "someError");
+                    }
+                });
 
 
                 Call<alladinmarket.com.alladinmarket.network.pojo.ObjectImage.ImageObject> callImages = apiServiceActual.
@@ -199,27 +199,27 @@ public class MyService extends Service {
                 });
 
 
-//                Call<ArrayList<DistrictItem>> callDistricts = apiService.listDistricts();
-//                callDistricts.enqueue(new Callback<ArrayList<DistrictItem>>() {
-//                    @Override
-//                    public void onResponse(Call<ArrayList<DistrictItem>> call, Response<ArrayList<DistrictItem>> response) {
-//                        try {
-//                            Log.v("checkAPIDistricts", "response_code" + response.code() + "lentgh" + response.body().size());
-//                            AllDistricts allDistricts = new AllDistricts();
-//                            Gson gson = new Gson();
-//                            allDistricts.setDistrict_items(response.body());
-//                            String allDistrictsHere = gson.toJson(allDistricts);
-//                            getSharedPreferences("MYPrefs", MODE_PRIVATE).edit().putString("districts_all", allDistrictsHere).apply();
-//                        } catch (Exception e) {
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ArrayList<DistrictItem>> call, Throwable t) {
-//                        Log.v("errorAPI", "response_error" + "someErrorDistricts");
-//                    }
-//                });
+                Call<ArrayList<DistrictItem>> callDistricts = apiService.listDistricts();
+                callDistricts.enqueue(new Callback<ArrayList<DistrictItem>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<DistrictItem>> call, Response<ArrayList<DistrictItem>> response) {
+                        try {
+                            Log.v("checkAPIDistricts", "response_code" + response.code() + "lentgh" + response.body().size());
+                            AllDistricts allDistricts = new AllDistricts();
+                            Gson gson = new Gson();
+                            allDistricts.setDistrict_items(response.body());
+                            String allDistrictsHere = gson.toJson(allDistricts);
+                            getSharedPreferences("MYPrefs", MODE_PRIVATE).edit().putString("districts_all", allDistrictsHere).apply();
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<DistrictItem>> call, Throwable t) {
+                        Log.v("errorAPI", "response_error" + "someErrorDistricts");
+                    }
+                });
 
 
             }

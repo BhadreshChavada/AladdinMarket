@@ -19,6 +19,11 @@ import alladinmarket.com.alladinmarket.adapters.SearchShopkeeperAdaper;
 import alladinmarket.com.alladinmarket.network.pojo.AllShops;
 import alladinmarket.com.alladinmarket.network.pojo.ShopkeeperItem;
 import alladinmarket.com.alladinmarket.network.pojo.product.AllProducts;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static alladinmarket.com.alladinmarket.services.MyService.apiService;
 
 
 public class SearchShopsActivity extends AppCompatActivity {
@@ -52,6 +57,41 @@ public class SearchShopsActivity extends AppCompatActivity {
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+        String ProductId = getIntent().getStringExtra("ProductId");
+        getShopKeepers(ProductId);
+    }
+
+    public void getShopKeepers(String ProductId) {
+
+        Call<ArrayList<ShopkeeperItem>> getproducts = apiService.listshops(ProductId);
+        getproducts.enqueue(new Callback<ArrayList<ShopkeeperItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ShopkeeperItem>> call, Response<ArrayList<ShopkeeperItem>> response) {
+
+                try {
+                    Log.v("resonseShops", response.code() + "length" + response.body().size());
+                    AllShops allshops = new AllShops();
+                    Gson gson = new Gson();
+                    allshops.setShopkeeper_items(response.body());
+                    String allShopsHere = gson.toJson(allshops);
+                    getSharedPreferences("MYPrefs", MODE_PRIVATE).edit().putString("shops_all", allShopsHere).apply();
+                    setupRecycleview();
+                } catch (NullPointerException e) {
+                    Toast.makeText(getApplicationContext(), "Try Again...", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ShopkeeperItem>> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    void setupRecycleview() {
         try {
             Gson gson = new Gson();
             gson.fromJson(getSharedPreferences("MYPrefs", MODE_PRIVATE).getString("shops_all", ""), AllProducts
@@ -78,8 +118,5 @@ public class SearchShopsActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             Toast.makeText(getApplicationContext(), "Try Again...", Toast.LENGTH_SHORT).show();
         }
-
     }
-
-
 }

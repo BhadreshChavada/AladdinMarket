@@ -58,8 +58,6 @@ public class SignUpActivity extends AppCompatActivity {
     private String pathForUpload = null;
     ProgressDialog progressDialog = null;
     String filePath = null;
-
-
     static final int REQUEST_TAKE_PHOTO = 1888;
     private static final int CAMERA_REQUEST = 1000;
 
@@ -105,12 +103,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         Call<MainRes> call;
         if (filePath != null) {
-
             File file = new File(filePath);
             // create RequestBody instance from file
             RequestBody requestFile =
                     RequestBody.create(MediaType.parse("multipart/form-data"), file);
-
             MultipartBody.Part fileData =
                     MultipartBody.Part.createFormData("user_img", filePath, requestFile);
             call = apiService.register(map, fileData);
@@ -128,12 +124,14 @@ public class SignUpActivity extends AppCompatActivity {
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(i);
+                } else {
+                    Toast.makeText(SignUpActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<MainRes> call, Throwable t) {
-                Log.v("reachhere", "yesagain");
+                Toast.makeText(SignUpActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -152,16 +150,13 @@ public class SignUpActivity extends AppCompatActivity {
                 //boolean result=Utility.checkPermission(MainActivity.this);
                 if (items[item].equals("Take Photo")) {
                     // userChoosenTask="Take Photo";
-
                     cameraIntent();
                 } else if (items[item].equals("Choose from Library")) {
                     //   userChoosenTask="Choose from Library";
-
                     galleryIntent();
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
-
             }
         });
         builder.show();

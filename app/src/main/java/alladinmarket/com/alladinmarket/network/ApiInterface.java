@@ -26,11 +26,13 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
@@ -67,11 +69,11 @@ public interface ApiInterface {
 
     @Multipart
     @POST("register.php")
-    Call<MainRes> register(@QueryMap HashMap<String, String> map, @Part MultipartBody.Part file);
+    Call<MainRes> register(@PartMap HashMap<String, String> map, @Part MultipartBody.Part file);
 
-
+    @FormUrlEncoded
     @POST("register.php")
-    Call<MainRes> register(@QueryMap HashMap<String, String> map);
+    Call<MainRes> register(@FieldMap HashMap<String, String> map);
 
 
     @GET("get_sub_category.php")
@@ -118,7 +120,7 @@ public interface ApiInterface {
     Call<ArrayList<ProductItem>> listproducts(@Query("subcategory") int subcategory);
 
     @GET("productwise_shopkeepers")
-    Call<ArrayList<ShopkeeperItem>> listshops(@Query("product_FK") int product);
+    Call<ArrayList<ShopkeeperItem>> listshops(@Query("product_FK") String product);
 
 
     @GET("search_market")
